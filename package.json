@@ -49,7 +49,9 @@
       "parser": "@typescript-eslint/parser",
       "ecmaVersion": 2020
     },
-    "rules": {}
+    "rules": {
+      "vue/no-multiple-template-root": 0
+    }
   },
   "browserslist": [
     "> 1%",

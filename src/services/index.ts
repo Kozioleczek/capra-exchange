@@ -1,5 +1,5 @@
-import ClientApi from './client-api';
+import ExchangeRatesSvc from './exchange-rates-svc';
 
-const API = new ClientApi();
+const ExchangeRates = new ExchangeRatesSvc();
 
-export default API;
+export default ExchangeRates;

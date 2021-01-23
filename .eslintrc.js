@@ -13,6 +13,7 @@ module.exports = {
       ecmaVersion: 2020,
     },
     rules: {
+      'vue/no-multiple-template-root': 0,
       'class-methods-use-this': 0,
       // Changing max row length from 80 to 150.
       // Remember to change in .editorconfig also, although am not sure if that file is even needed?

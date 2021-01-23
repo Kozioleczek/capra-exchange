@@ -19,7 +19,19 @@ export default class ClientApi {
     }
 
     public async request<T>(url: string, params: AxiosRequestConfig): Promise<AxiosResponse<T>> {
-      return this.axios.request(params);
+      const defaultParams: AxiosRequestConfig = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Headers': 'access-control-allow-methods,access-control-allow-origin,content-type',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, HEAD, OPTIONS',
+          Accept: 'application/json',
+        },
+        method: 'GET',
+        data: null,
+        url,
+      };
+      return this.axios.request({ ...defaultParams, ...params });
     }
 
     private static handleResponse(response: AxiosResponse) {
@@ -31,6 +43,9 @@ export default class ClientApi {
     private static handleError(error: AxiosError): void {
       // eslint-disable-next-line no-console
       console.log('[ERROR] ClientAPI: ', error);
+      console.log(error.response?.data);
+      console.log(error.response?.status);
+      console.log(error.response?.headers);
       throw error;
     }
 }
