@@ -7,10 +7,9 @@ export default class ClientApi {
 
     constructor(config?: AxiosRequestConfig) {
       this.axios = axios.create(config);
-
       this.axios.interceptors.response.use(
-        (response: AxiosResponse) => this.constructor.handleResponse(response),
-        (error: AxiosError) => this.constructor.handleError(error),
+        (response: AxiosResponse) => ClientApi.handleResponse(response),
+        (error: AxiosError) => ClientApi.handleError(error),
       );
 
       this.axios.interceptors.request.use(
@@ -19,20 +18,19 @@ export default class ClientApi {
       );
     }
 
-    public async request<T>(url: string, params?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
-      const finalParams = this.buildParams(url, params);
+    public async request<T>(url: string, params: AxiosRequestConfig): Promise<AxiosResponse<T>> {
       return this.axios.request(params);
     }
 
     private static handleResponse(response: AxiosResponse) {
+      // eslint-disable-next-line no-console
+      console.log('[SUCCESS] ClientAPI: ', response);
       return response;
     }
 
     private static handleError(error: AxiosError): void {
       // eslint-disable-next-line no-console
-      console.log('ClientAPI Error Intercepted: ', error);
+      console.log('[ERROR] ClientAPI: ', error);
       throw error;
     }
-
-
 }
