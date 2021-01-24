@@ -5,7 +5,7 @@
   >
     <input
       id="toggle"
-      v-model="checkboxStatus"
+      v-model="status"
       type="checkbox"
       name="toggle"
       class="toggle-checkbox
@@ -25,15 +25,20 @@
 </template>
 
 <script lang="ts">
-import { ref, watch } from 'vue';
+import { ref, computed } from 'vue';
 
 export default {
-  emits: ['change:checkboxStatus'],
+  emits: ['checkboxStatus'],
 
-  setup() {
+  setup(props, { emit }) {
     const checkboxStatus: boolean = ref(false);
 
-    return { checkboxStatus };
+    const status = computed({
+      get: () => checkboxStatus,
+      set: (value) => emit('checkboxStatus', value),
+    });
+
+    return { checkboxStatus, status };
   },
 
 };

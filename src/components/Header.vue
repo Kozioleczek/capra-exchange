@@ -7,7 +7,6 @@
         :width="10"
         class="my-auto mr-4"
       />
-      {{ checkboxStatus }}
       <Moon
         v-if="checkboxStatus"
         :height="10"
@@ -16,7 +15,7 @@
       />
       <SwitchButton
         class="my-auto"
-        @change:checkboxStatus="checkboxStatus = $event"
+        @checkbox-status="checkboxStatus = $event"
       />
     </div>
     <div class="text-center my-auto mx-auto">
@@ -44,7 +43,7 @@
 </template>
 
 <script lang="ts">
-import { ref, reactive } from 'vue';
+import { ref } from 'vue';
 import Cog from './icons/Cog.vue';
 import Sun from './icons/Sun.vue';
 import Moon from './icons/Moon.vue';
@@ -60,7 +59,7 @@ export default {
     SwitchButton,
   },
   setup() {
-    const checkboxStatus = reactive(false);
+    const checkboxStatus = ref(false);
 
     return { checkboxStatus };
   },
