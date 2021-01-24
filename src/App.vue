@@ -11,10 +11,15 @@
         <Cog
           height="10"
           width="10"
-          class="my-auto"
+          class="my-auto mr-4"
         />
         <div class="my-auto">
-          Rezta
+          <Button
+            bg-color="gray"
+            hover-bg-color="gray"
+          >
+            Pobierz aplikację
+          </Button>
         </div>
       </div>
     </div>
@@ -35,10 +40,12 @@
 import ExchangeRates from '@/services';
 import { onMounted } from 'vue';
 import Cog from './components/icons/Cog.vue';
+import Button from './components/elements/Button.vue';
 
 export default {
   components: {
     Cog,
+    Button,
   },
   setup() {
     const exchangeRates = async () => {
