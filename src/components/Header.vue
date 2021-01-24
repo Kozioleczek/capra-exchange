@@ -26,6 +26,7 @@
         :height="10"
         :width="10"
         class="my-auto mr-4"
+        @click="isSettingsPaneOpen = true"
       />
       <div class="my-auto">
         <Button
@@ -40,6 +41,24 @@
       </div>
     </div>
   </header>
+  <teleport to="body">
+    <div
+      v-if="isSettingsPaneOpen"
+      class="bg-black absolute h-screen p-10 top-0 right-0"
+      style="width: 30rem"
+    >
+      <div class="grid grid-cols-2 flex justify-between">
+        <span class="text-white text-3xl font-bold">Ustawienia</span>
+        <div class="flex justify-end">
+          <Close
+            :height="10"
+            :width="10"
+            @click="isSettingsPaneOpen = false"
+          />
+        </div>
+      </div>
+    </div>
+  </teleport>
 </template>
 
 <script lang="ts">
@@ -47,6 +66,7 @@ import { ref } from 'vue';
 import Cog from './icons/Cog.vue';
 import Sun from './icons/Sun.vue';
 import Moon from './icons/Moon.vue';
+import Close from './icons/Close.vue';
 import Button from './elements/Button.vue';
 import SwitchButton from './elements/SwitchButton.vue';
 
@@ -57,11 +77,13 @@ export default {
     Moon,
     Button,
     SwitchButton,
+    Close,
   },
   setup() {
     const checkboxStatus = ref(false);
+    const isSettingsPaneOpen = ref(false);
 
-    return { checkboxStatus };
+    return { checkboxStatus, isSettingsPaneOpen };
   },
 };
 </script>
