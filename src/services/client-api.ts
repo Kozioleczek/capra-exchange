@@ -35,13 +35,11 @@ export default class ClientApi {
     }
 
     private static handleResponse(response: AxiosResponse) {
-      // eslint-disable-next-line no-console
       console.log('[SUCCESS] ClientAPI: ', response);
       return response;
     }
 
     private static handleError(error: AxiosError): void {
-      // eslint-disable-next-line no-console
       console.log('[ERROR] ClientAPI: ', error);
       console.log(error.response?.data);
       console.log(error.response?.status);
