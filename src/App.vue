@@ -1,20 +1,45 @@
 <template>
-  <div id="nav">
-    <router-link to="/">
-      Home
-    </router-link> |
-    <router-link to="/about">
-      About
-    </router-link>
+  <div class="container h-screen mx-auto p-4">
+    <div class="grid grid-cols-3">
+      <div class="text-left">
+        Test
+      </div>
+      <div class="text-center">
+        Logo
+      </div>
+      <div class="inline-flex justify-end">
+        <Cog
+          height="10"
+          width="10"
+          class="my-auto"
+        />
+        <div class="my-auto">
+          Rezta
+        </div>
+      </div>
+    </div>
+
+    <div id="nav">
+      <router-link to="/">
+        Home
+      </router-link> |
+      <router-link to="/about">
+        About
+      </router-link>
+    </div>
+    <router-view />
   </div>
-  <router-view />
 </template>
 
 <script lang="ts">
 import ExchangeRates from '@/services';
 import { onMounted } from 'vue';
+import Cog from './components/icons/Cog.vue';
 
 export default {
+  components: {
+    Cog,
+  },
   setup() {
     const exchangeRates = async () => {
       await ExchangeRates.fetchAvgRateCurrency().then((response) => console.log(response));
@@ -30,7 +55,6 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale ;
-  text-align: center;
   color: #2c3e50;
 }
 
