@@ -1,7 +1,7 @@
 <template>
   <div class="container h-screen mx-auto p-4">
     <Header />
-    <router-view />
+    <Hero />
   </div>
 </template>
 
@@ -9,10 +9,12 @@
 import { onMounted } from 'vue';
 import ExchangeRates from '@/services';
 import Header from './components/Header.vue';
+import Hero from './components/Hero.vue';
 
 export default {
   components: {
     Header,
+    Hero,
   },
   setup() {
     const exchangeRates = async () => {
