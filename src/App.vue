@@ -15,8 +15,11 @@
         />
         <div class="my-auto">
           <Button
-            bg-color="gray"
+            bg-color="black"
+            :bg-color-depth="0"
             hover-bg-color="gray"
+            :hover-bg-color-depth="600"
+            text-color="white"
           >
             Pobierz aplikację
           </Button>

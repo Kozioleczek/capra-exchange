@@ -51,6 +51,9 @@ export default {
   setup(props: Readonly<Iprops>) {
     const colorDepthSufix = computed(() => (props.bgColorDepth === 0 ? '' : `-${props.bgColorDepth}`));
     const colorHoverDepthSufix = computed(() => (props.hoverBgColorDepth === 0 ? '' : `-${props.hoverBgColorDepth}`));
+
+    return { colorDepthSufix, colorHoverDepthSufix };
   },
+
 };
 </script>
