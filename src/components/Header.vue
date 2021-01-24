@@ -25,7 +25,7 @@
       <Cog
         :height="10"
         :width="10"
-        class="my-auto mr-4"
+        class="my-auto mr-4 cursor-pointer"
         @click="isSettingsPaneOpen = true"
       />
       <div class="my-auto">
@@ -42,22 +42,25 @@
     </div>
   </header>
   <teleport to="body">
-    <div
-      v-if="isSettingsPaneOpen"
-      class="bg-black absolute h-screen p-10 top-0 right-0"
-      style="width: 30rem"
-    >
-      <div class="grid grid-cols-2 flex justify-between">
-        <span class="text-white text-3xl font-bold">Ustawienia</span>
-        <div class="flex justify-end">
-          <Close
-            :height="10"
-            :width="10"
-            @click="isSettingsPaneOpen = false"
-          />
+    <transition name="slide-fade">
+      <div
+        v-if="isSettingsPaneOpen"
+        class="bg-black absolute h-screen p-10 top-0 right-0"
+        style="width: 30rem"
+      >
+        <div class="grid grid-cols-2 flex justify-between">
+          <span class="text-white text-3xl font-bold">Ustawienia</span>
+          <div class="flex justify-end">
+            <Close
+              :height="10"
+              :width="10"
+              class="cursor-pointer"
+              @click="isSettingsPaneOpen = false"
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </transition>
   </teleport>
 </template>
 
@@ -89,5 +92,17 @@ export default {
 </script>
 
 <style>
+.slide-fade-enter-active {
+  transition: all 0.3s ease-in;
+}
 
+.slide-fade-leave-active {
+  transition: all 0.3s ease-out;
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
+}
 </style>
