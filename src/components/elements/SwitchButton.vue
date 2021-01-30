@@ -5,7 +5,7 @@
   >
     <input
       id="toggle"
-      v-model="status"
+      v-model="localStatus"
       type="checkbox"
       name="toggle"
       class="toggle-checkbox
@@ -25,20 +25,30 @@
 </template>
 
 <script lang="ts">
-import { ref, computed } from 'vue';
+import { ref, watch, SetupContext } from 'vue';
 
+interface Iprops {
+  statusProp: boolean;
+}
 export default {
-  emits: ['checkboxStatus'],
+  name: 'SwitchButton',
+  props: {
+    statusProp: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  emits: ['checkbox-status'],
+  setup(props: Iprops, context: SetupContext) {
+    const localStatus = ref(false);
 
-  setup(props, { emit }) {
-    const checkboxStatus: boolean = ref(false);
+    watch(localStatus,
+      (status) => {
+        console.log('change', status);
+        context.emit('checkbox-status', status);
+      });
 
-    const status = computed({
-      get: () => checkboxStatus,
-      set: (value) => emit('checkboxStatus', value),
-    });
-
-    return { checkboxStatus, status };
+    return { localStatus };
   },
 
 };

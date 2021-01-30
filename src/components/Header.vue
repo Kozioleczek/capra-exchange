@@ -15,6 +15,7 @@
       />
       <SwitchButton
         class="my-auto"
+        :status-prop="checkboxStatus"
         @checkbox-status="checkboxStatus = $event"
       />
     </div>
