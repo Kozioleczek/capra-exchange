@@ -20,7 +20,7 @@
       />
     </div>
     <div class="text-center my-auto mx-auto">
-      <img src="../assets/logo.svg">
+      <img src="@/assets/logo.svg">
     </div>
     <div class="inline-flex justify-end">
       <Cog
@@ -53,16 +53,16 @@
 </template>
 
 <script lang="ts">
-import { ref } from 'vue';
-import Cog from './icons/Cog.vue';
-import Sun from './icons/Sun.vue';
-import Moon from './icons/Moon.vue';
+import { ref, defineComponent, watch } from 'vue';
+import Cog from '../icons/Cog.vue';
+import Sun from '../icons/Sun.vue';
+import Moon from '../icons/Moon.vue';
 
-import Button from './elements/Button.vue';
-import SwitchButton from './elements/SwitchButton.vue';
-import SettingsPane from './SettingsPage.vue';
+import Button from '../elements/Button.vue';
+import SwitchButton from '../elements/SwitchButton.vue';
+import SettingsPane from '../SettingsPage.vue';
 
-export default {
+export default defineComponent({
   components: {
     Cog,
     Sun,
@@ -75,9 +75,17 @@ export default {
     const checkboxStatus = ref(false);
     const isSettingsPaneOpen = ref(false);
 
+    watch(checkboxStatus, (value) => {
+      if (value) {
+        document.body.classList.add('dark');
+      } else {
+        document.body.classList.remove('dark');
+      }
+    });
+
     return { checkboxStatus, isSettingsPaneOpen };
   },
-};
+});
 </script>
 
 <style>
