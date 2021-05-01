@@ -30,15 +30,9 @@
         @click="isSettingsPaneOpen = true"
       />
       <div class="my-auto">
-        <Button
-          bg-color="black"
-          :bg-color-depth="0"
-          hover-bg-color="gray"
-          :hover-bg-color-depth="600"
-          text-color="white"
-        >
-          Pobierz aplikację
-        </Button>
+        <div class="rounded-full border-2 border-green py-2 px-4">
+          Pozostałe zapytania: {{ remainingRequests ? remainingRequests.usage : 'Loading...' }}/100
+        </div>
       </div>
     </div>
   </header>
@@ -53,12 +47,14 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, watch } from 'vue';
+import {
+  ref, defineComponent, watch, onMounted,
+} from 'vue';
+import useCurrencyConverter from '@/hooks/useCurrencyConverter';
+import { UsageResponse } from '@/types';
 import Cog from '../icons/Cog.vue';
 import Sun from '../icons/Sun.vue';
 import Moon from '../icons/Moon.vue';
-
-import Button from '../elements/Button.vue';
 import SwitchButton from '../elements/SwitchButton.vue';
 import SettingsPane from '../SettingsPage.vue';
 
@@ -67,13 +63,26 @@ export default defineComponent({
     Cog,
     Sun,
     Moon,
-    Button,
+
     SwitchButton,
     SettingsPane,
   },
   setup() {
     const checkboxStatus = ref(false);
     const isSettingsPaneOpen = ref(false);
+
+    const { getAPIUsage } = useCurrencyConverter();
+    const remainingRequests = ref<UsageResponse | null>(null);
+    const isError = ref(false);
+
+    onMounted(async () => {
+      try {
+        const response = await getAPIUsage();
+        remainingRequests.value = response.data;
+      } catch {
+        isError.value = true;
+      }
+    });
 
     watch(checkboxStatus, (value) => {
       if (value) {
@@ -83,7 +92,9 @@ export default defineComponent({
       }
     });
 
-    return { checkboxStatus, isSettingsPaneOpen };
+    return {
+      checkboxStatus, isSettingsPaneOpen, remainingRequests, isError,
+    };
   },
 });
 </script>

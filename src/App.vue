@@ -3,6 +3,7 @@
     <Header />
     <Hero />
     {{ currencyResponse }}
+    {{ historicalResponse }}
     <div class="grid grid-cols-12 px-32 gap-20">
       <div class="col-span-6 bg-black dark:bg-secondary rounded-2xl p-10">
         <div class="flex justify-between">
@@ -73,6 +74,7 @@
 <script lang="ts">
 import { onMounted, ref } from 'vue';
 import useCurrencyConverter from '@/hooks/useCurrencyConverter';
+import { CurrencyResponse, CurrencyHistoricalResponse } from '@/types';
 import Header from './components/layout-elements/base-header.vue';
 import Hero from './components/layout-elements/base-hero.vue';
 import Footer from './components/layout-elements/base-footer.vue';
@@ -84,16 +86,19 @@ export default {
     Footer,
   },
   setup() {
-    const { getConvertPair } = useCurrencyConverter();
+    const { getConvertPair, getHistoricalDataRange } = useCurrencyConverter();
 
-    const currencyResponse = ref([]);
+    const currencyResponse = ref<CurrencyResponse | null>(null);
+    const historicalResponse = ref<CurrencyHistoricalResponse | null>(null);
 
     onMounted(async () => {
       const response = await getConvertPair('USD', 'PLN');
+      const res = await getHistoricalDataRange('USD', 'PLN', '2021-04-28', '2021-05-01');
       currencyResponse.value = response.data;
+      historicalResponse.value = res.data;
     });
 
-    return { currencyResponse };
+    return { currencyResponse, historicalResponse };
   },
 };
 </script>
