@@ -29,6 +29,7 @@ module.exports = {
       'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
       'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
       '@typescript-eslint/ban-ts-ignore': 0,
+      '@typescript-eslint/camelcase': 0,
     },
     // These are added if you chose also to install Jest plugin for Vue CLI
     // With my own modifications here as an example

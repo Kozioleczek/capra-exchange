@@ -2,6 +2,7 @@
   <div class="container h-screen mx-auto p-4">
     <Header />
     <Hero />
+    {{ currencyResponse }}
     <div class="grid grid-cols-12 px-32 gap-20">
       <div class="col-span-6 bg-black dark:bg-secondary rounded-2xl p-10">
         <div class="flex justify-between">
@@ -70,8 +71,8 @@
 </template>
 
 <script lang="ts">
-import { onMounted } from 'vue';
-import ExchangeRates from '@/services';
+import { onMounted, ref } from 'vue';
+import useCurrencyConverter from '@/hooks/useCurrencyConverter';
 import Header from './components/layout-elements/base-header.vue';
 import Hero from './components/layout-elements/base-hero.vue';
 import Footer from './components/layout-elements/base-footer.vue';
@@ -83,28 +84,34 @@ export default {
     Footer,
   },
   setup() {
-    const exchangeRates = async () => {
-      await ExchangeRates.fetchAvgRateCurrency().then((response) => console.log(response));
-    };
-    onMounted(exchangeRates);
-  },
+    const { getConvertPair } = useCurrencyConverter();
 
+    const currencyResponse = ref([]);
+
+    onMounted(async () => {
+      const response = await getConvertPair('USD', 'PLN');
+      currencyResponse.value = response.data;
+    });
+
+    return { currencyResponse };
+  },
 };
 </script>
 
 <style lang="postcss">
-html, body {
-    overflow-x: hidden;
+html,
+body {
+  overflow-x: hidden;
 }
 
-body.dark{
-      background: theme('colors.deepBlack')
+body.dark {
+  background: theme('colors.deepBlack');
 }
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale ;
+  -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   overflow-x: hidden;
 }
