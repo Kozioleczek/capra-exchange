@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@tailwindcss/postcss7-compat": "^2.0.2",
+    "@vueform/multiselect": "^1.4.0",
     "apexcharts": "^3.26.1",
     "autoprefixer": "9",
     "axios": "^0.21.1",

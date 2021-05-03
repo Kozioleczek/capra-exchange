@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="30" height="18" viewBox="0 0 30 18">
+  <defs>
+    <clipPath id="clip-Caret">
+      <rect width="30" height="18"/>
+    </clipPath>
+  </defs>
+  <g id="Caret" clip-path="url(#clip-Caret)">
+    <line id="Line_20" data-name="Line 20" x2="13.664" y2="13.664" transform="translate(1.5 1.697)" fill="none" stroke="#fff" stroke-width="3"/>
+    <line id="Line_21" data-name="Line 21" x1="14.315" y2="14.803" transform="translate(14.025 1.697)" fill="none" stroke="#fff" stroke-width="3"/>
+  </g>
+</svg>
