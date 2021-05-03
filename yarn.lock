@@ -3292,6 +3292,11 @@ csstype@^2.6.8:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.6.14.tgz#004822a4050345b55ad4dcc00be1d9cf2f4296de"
   integrity sha512-2mSc+VEpGPblzAxyeR+vZhJKgYg0Og0nnRi7pmRXFYYxSfnOnW8A5wwQb4n4cE2nIOzqKOAzLCaEX6aBmNEv8A==
 
+currency-flags@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/currency-flags/-/currency-flags-3.2.1.tgz#ed535a55628bad6d9a2f39e10e681e9de9304dd4"
+  integrity sha512-5IBjKoPlrEX2KAW5GWrldPnSWybsbeiltLe63y1pEeIOdaEqMu3T6pfKgDud9oq3G9i8hMvzSQGiPO+prF0+Hg==
+
 cyclist@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-1.0.1.tgz#596e9698fd0c80e12038c2b82d6eb1b35b6224d9"
