@@ -4,6 +4,9 @@ module.exports = {
   purge: [
     './public/**/*.html',
     './src/**/*.vue',
+    './src/components/*.vue',
+    './src/components/**/*.vue',
+    './src/components/**/**/*.vue',
   ],
   darkMode: 'class', // or 'media' or 'class'
   theme: {

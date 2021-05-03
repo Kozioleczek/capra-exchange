@@ -207,7 +207,6 @@
           type="line"
           :series="series"
           :options="chartOptions"
-          :theme="{mode: 'dark'}"
         />
       </div>
     </div>
@@ -246,6 +245,7 @@ import { CurrencyResponse, CurrencyHistoricalResponse } from '@/types';
 import ApexChart from 'vue3-apexcharts';
 import Multiselect from '@vueform/multiselect';
 import { currencies as currenciesISO, SingleCurrency, CurrenciesKeysMap } from '@/const/currenciesISO';
+import availableSquareFlags from '@/const/availableSquareFlags';
 import '@vueform/multiselect/themes/default.css';
 
 export default {
@@ -375,11 +375,7 @@ export default {
     const showSearchInfoFirst = ref(false);
     const showSearchInfoSecond = ref(false);
 
-    const flagForCodeExist = (code: string) => {
-      // eslint-disable-next-line max-len
-      const availableCodes = ['aed', 'ars', 'aud', 'bdt', 'bgn', 'brl', 'bwp', 'cad', 'chf', 'clp', 'cny', 'crc', 'czk', 'dkk', 'edp', 'eur', 'fjd', 'gbp', 'gel', 'ghs', 'hkd', 'hrk', 'huf', 'idr', 'ils', 'inr', 'jpy'];
-      return !!availableCodes.find((c) => c === code);
-    };
+    const flagForCodeExist = (code: string) => !!availableSquareFlags.find((c) => c === code);
 
     const calculateValue = ref(100);
 
