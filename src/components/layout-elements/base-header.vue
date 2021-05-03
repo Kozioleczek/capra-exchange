@@ -30,9 +30,22 @@
         @click="isSettingsPaneOpen = true"
       />
       <div class="my-auto">
-        <div class="rounded-full border-2 border-green py-2 px-4">
-          Pozostałe zapytania: {{ remainingRequests ? remainingRequests.usage : 'Loading...' }}/100
+        <div
+          v-if="remainingRequests"
+          class="rounded-full py-2 px-4"
+          :class="remainingRequests.usage >= 100 ? 'bg-red-500 text-white' : 'border-2 border-green-400'"
+        >
+          <div v-if="remainingRequests.usage >= 100">
+            Przekroczono limit zapytań
+          </div>
+          <div v-else>
+            Pozostałe zapytania: {{ remainingRequests.usage }}/100
+          </div>
         </div>
+        <div
+          v-else
+          class="rounded-full w-full h-10 bg-gray-300 animation-pulse"
+        />
       </div>
     </div>
   </header>

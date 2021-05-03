@@ -1,5 +1,8 @@
 <template>
-  <div class="flex px-32 gap-20">
+  <div
+    v-if="!isError"
+    class="flex px-32 gap-20"
+  >
     <div class="w-1/2 bg-black dark:bg-secondary rounded-2xl p-10">
       <div class="flex justify-between">
         <Multiselect
@@ -192,6 +195,30 @@
       </div>
     </div>
   </div>
+  <div
+    v-else
+    class="block text-center"
+  >
+    <img
+      :src="require('@/assets/server-down.svg')"
+      class="w-1/3 h-auto mx-auto mb-10"
+    >
+    <h1
+      v-if="errorCode === 400"
+      class="font-bold text-3xl"
+    >
+      Oops! Pula darmowych zapytań została wyczerpana
+    </h1>
+    <h1
+      v-else
+      class="font-bold text-3xl"
+    >
+      Oops! Wystąpił nieznany błąd.
+    </h1>
+    <p class="text-xl">
+      Spróbuj ponowanie później
+    </p>
+  </div>
 </template>
 <script lang="ts">
 import {
@@ -220,25 +247,29 @@ export default {
 
     const isLoading = ref(true);
 
-    // Fetch first pair data
-    onMounted(async () => {
-      const response = await getConvertPair('PLN', 'EUR');
-      const res = await getHistoricalDataRange('PLN', 'EUR', '2021-04-24', '2021-05-01');
-      currencyResponse.value = response.data;
-      console.log('cur', currencyResponse.value);
-      historicalResponse.value = res.data;
-      isLoading.value = false;
-    });
+    const isError = ref(false);
+    const errorCode = ref(0);
 
     // Fetch first pair data
     const fetchData = async (firstCurrency: string, secondCurrency: string) => {
       isLoading.value = true;
-      const response = await getConvertPair(firstCurrency as CurrenciesKeysMap, secondCurrency as CurrenciesKeysMap);
-      const res = await getHistoricalDataRange(firstCurrency as CurrenciesKeysMap, secondCurrency as CurrenciesKeysMap, '2021-04-24', '2021-05-01');
-      currencyResponse.value = response.data;
-      historicalResponse.value = res.data;
-      isLoading.value = false;
+      try {
+        const response = await getConvertPair(firstCurrency as CurrenciesKeysMap, secondCurrency as CurrenciesKeysMap);
+        const res = await getHistoricalDataRange(firstCurrency as CurrenciesKeysMap, secondCurrency as CurrenciesKeysMap, '2021-04-24', '2021-05-01');
+        currencyResponse.value = response.data;
+        historicalResponse.value = res.data;
+      } catch (error) {
+        isError.value = true;
+        errorCode.value = error.response.status;
+      } finally {
+        isLoading.value = false;
+      }
     };
+
+    // Fetch first pair data
+    onMounted(async () => {
+      await fetchData('PLN', 'EUR');
+    });
 
     // i: 0 -> first currency i: 1 -> second
     const transformedCurrencyRatio = ref<number[]>([]);
@@ -337,6 +368,8 @@ export default {
       showSearchInfoFirst,
       showSearchInfoSecond,
       flagForCodeExist,
+      isError,
+      errorCode,
       isLoading,
     };
   },
@@ -347,6 +380,11 @@ export default {
   border: none;
   height: 4rem;
 }
+
+.is-disabled .multiselect-input {
+  cursor: not-allowed;
+}
+
 .multiselect-clear {
   display: none;
 }
@@ -385,6 +423,10 @@ export default {
 .is-disabled .flag {
       -webkit-animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
     animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.is-disabled {
+  cursor: not-allowed!important;
 }
 
 .multiselect-options{
