@@ -99,14 +99,33 @@
         <p class="font-bold text-white mb-3">
           Popularne pary walutowe:
         </p>
-        <div class="flex gap-5">
+        <div class="flex gap-5  flex-wrap">
           <div
-            v-for="i in 4"
-            :key="i"
-            class="text-center"
+            v-for="(pair, index) in suggestedPairs"
+            :key="index"
+            :class="pair === firstCurrencySelected && 'hidden'"
           >
-            <div class="rounded-full bg-gray-300 block h-14 w-14 mb-2" />
-            <span class="text-white text-xl">BTC</span>
+            <div
+              class="flex p-2 gap-1 border border-white rounded-full hover:bg-white hover:text-black text-white cursor-pointer"
+              @click="secondCurrencySelected = pair"
+            >
+              <div
+                v-if="flagForCodeExist(firstCurrencySelected.toLowerCase())"
+                class="rounded-full block h-5 w-5 my-auto flag"
+                :style="{ backgroundImage: 'url(' + require(`@/assets/square-flags/${firstCurrencySelected.toLowerCase()}.svg`) + ')'}"
+              />
+              <div
+                v-else
+                class="rounded-full block h-5 w-5 my-auto bg-gray-300"
+              />
+              <span class="text-md my-auto">{{ firstCurrencySelected }}</span>
+              <span class="my-auto">→</span>
+              <span class="text-md my-auto">{{ pair }}</span>
+              <div
+                class="rounded-full block h-5 w-5 my-auto flag"
+                :style="{ backgroundImage: 'url(' + require(`@/assets/square-flags/${pair.toLowerCase()}.svg`) + ')'}"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -238,9 +257,9 @@
 </template>
 <script lang="ts">
 import {
-  onMounted, ref, reactive, watch, computed,
+  onMounted, ref, reactive, watch,
 } from 'vue';
-import useCurrencyConverter from '@/hooks/useCurrencyConverter';
+import useCurrencyConverter from '@/composable/useCurrencyConverter';
 import { CurrencyResponse, CurrencyHistoricalResponse } from '@/types';
 import ApexChart from 'vue3-apexcharts';
 import Multiselect from '@vueform/multiselect';
@@ -375,9 +394,14 @@ export default {
     const showSearchInfoFirst = ref(false);
     const showSearchInfoSecond = ref(false);
 
-    const flagForCodeExist = (code: string) => !!availableSquareFlags.find((c) => c === code);
+    const flagForCodeExist = (code: string) => {
+      console.log(code, !!availableSquareFlags.find((c) => c === code));
+      return !!availableSquareFlags.find((c) => c === code);
+    };
 
     const calculateValue = ref(100);
+
+    const suggestedPairs = ref(['USD', 'PLN', 'GBP', 'EUR', 'CZK']);
 
     return {
       calculateValue,
@@ -396,6 +420,7 @@ export default {
       errorCode,
       calculateRef,
       isLoading,
+      suggestedPairs,
     };
   },
 };
