@@ -15,17 +15,9 @@
 </template>
 
 <script lang="ts">
-import { computed } from 'vue';
+import { computed, defineComponent } from 'vue';
 
-interface Iprops {
-    bgColor: string;
-    bgColorDepth: number;
-    hoverBgColor: string;
-    hoverBgColorDepth: number;
-    textColor: string;
-}
-
-export default {
+export default defineComponent({
   props: {
     bgColor: {
       type: String,
@@ -48,12 +40,12 @@ export default {
       default: 'white',
     },
   },
-  setup(props: Readonly<Iprops>) {
+  setup(props) {
     const colorDepthSufix = computed(() => (props.bgColorDepth === 0 ? '' : `-${props.bgColorDepth}`));
     const colorHoverDepthSufix = computed(() => (props.hoverBgColorDepth === 0 ? '' : `-${props.hoverBgColorDepth}`));
 
     return { colorDepthSufix, colorHoverDepthSufix };
   },
 
-};
+});
 </script>

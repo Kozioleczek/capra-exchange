@@ -1,8 +1,9 @@
 <template>
   <svg
-    :class="`h-${height} w-${width} text-gray-500`"
+    :class="`h-${height} w-${width}`"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 20 20"
+    fill="currentColor"
   >
     <path
       fill-rule="evenodd"

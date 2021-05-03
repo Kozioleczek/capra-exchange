@@ -66,6 +66,7 @@
         >
           <div class="text-6xl">
             <input
+              ref="calculateRef"
               v-model="calculateValue"
               autofocus
               type="number"
@@ -198,7 +199,7 @@
       </div>
       <div
         v-if="chartOptions.xaxis.categories.length > 0"
-        class="rounded-2xl border-2 border-black p-5"
+        class="rounded-2xl border-2 border-black p-5 dark:bg-secondary"
       >
         <ApexChart
           class="my-auto"
@@ -206,6 +207,7 @@
           type="line"
           :series="series"
           :options="chartOptions"
+          :theme="{mode: 'dark'}"
         />
       </div>
     </div>
@@ -328,9 +330,15 @@ export default {
       }
     };
 
+    // Thanks to below ref we adding focus on input onMounted
+    const calculateRef = ref<HTMLInputElement|null>(null);
+
     // Fetch first pair data
     onMounted(async () => {
       await fetchData('PLN', 'EUR');
+      if (calculateRef.value !== null) {
+        calculateRef.value.focus();
+      }
     });
 
     // When selected currencies changed and are !== null then fetchData
@@ -390,6 +398,7 @@ export default {
       flagForCodeExist,
       isError,
       errorCode,
+      calculateRef,
       isLoading,
     };
   },

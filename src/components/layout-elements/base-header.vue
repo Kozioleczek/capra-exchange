@@ -1,11 +1,11 @@
 <template>
   <header class="grid grid-cols-3 pt-5">
-    <div class="inline-flex justify-start">
+    <div class="inline-flex justify-start dark:text-white">
       <Sun
         v-if="!checkboxStatus"
         :height="10"
         :width="10"
-        class="my-auto mr-4"
+        class="my-auto mr-4 "
       />
       <Moon
         v-if="checkboxStatus"
@@ -20,19 +20,19 @@
       />
     </div>
     <div class="text-center my-auto mx-auto">
-      <img src="@/assets/logo.svg">
+      <Logo class="dark:text-white text-black" />
     </div>
     <div class="inline-flex justify-end">
       <Cog
         :height="10"
         :width="10"
-        class="my-auto mr-4 cursor-pointer"
+        class="my-auto mr-4 cursor-pointer  text-black dark:text-white"
         @click="isSettingsPaneOpen = true"
       />
       <div class="my-auto">
         <div
           v-if="remainingRequests"
-          class="rounded-full py-2 px-4"
+          class="rounded-full py-2 px-4 dark:text-white"
           :class="remainingRequests.usage >= 100 ? 'bg-red-500 text-white' : 'border-2 border-green-400'"
         >
           <div v-if="remainingRequests.usage >= 100">
@@ -70,15 +70,16 @@ import Sun from '../icons/Sun.vue';
 import Moon from '../icons/Moon.vue';
 import SwitchButton from '../elements/SwitchButton.vue';
 import SettingsPane from '../SettingsPage.vue';
+import Logo from '../Logo.vue';
 
 export default defineComponent({
   components: {
     Cog,
     Sun,
     Moon,
-
-    SwitchButton,
     SettingsPane,
+    SwitchButton,
+    Logo,
   },
   setup() {
     const checkboxStatus = ref(false);

@@ -25,12 +25,9 @@
 </template>
 
 <script lang="ts">
-import { ref, watch, SetupContext } from 'vue';
+import { ref, watch, defineComponent } from 'vue';
 
-interface Iprops {
-  statusProp: boolean;
-}
-export default {
+export default defineComponent({
   name: 'SwitchButton',
   props: {
     statusProp: {
@@ -39,18 +36,18 @@ export default {
     },
   },
   emits: ['checkbox-status'],
-  setup(props: Iprops, context: SetupContext) {
+  setup(props, { emit }) {
     const localStatus = ref(false);
 
     watch(localStatus,
       (status) => {
-        context.emit('checkbox-status', status);
+        emit('checkbox-status', status);
       });
 
     return { localStatus };
   },
 
-};
+});
 </script>
 
 <style scoped>
