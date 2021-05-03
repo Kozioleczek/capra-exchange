@@ -41,6 +41,7 @@
     "postcss": "7",
     "sass": "^1.32.5",
     "sass-loader": "^10.1.1",
+    "terser-webpack-plugin": "^4.2.3",
     "typescript": "~3.9.3"
   },
   "eslintConfig": {

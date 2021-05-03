@@ -63,7 +63,7 @@
 import {
   ref, defineComponent, watch, onMounted,
 } from 'vue';
-import useCurrencyConverter from '@/hooks/useCurrencyConverter';
+import useCurrencyConverter from '@/composable/useCurrencyConverter';
 import { UsageResponse } from '@/types';
 import Cog from '../icons/Cog.vue';
 import Sun from '../icons/Sun.vue';

@@ -27,7 +27,7 @@
               <div
                 v-if="flagForCodeExist(value.code.toLowerCase())"
                 class="rounded-full block h-14 w-14 my-auto flag"
-                :style="{ backgroundImage: 'url(' + require(`@/assets/square-flags/${value.code.toLowerCase()}.svg`) + ')'}"
+                :style="{ backgroundImage: 'url(' + `https://wise.com/public-resources/assets/flags/rectangle/${value.code.toLowerCase()}.png` + ')'}"
               />
               <div
                 v-else
@@ -112,7 +112,7 @@
               <div
                 v-if="flagForCodeExist(firstCurrencySelected.toLowerCase())"
                 class="rounded-full block h-5 w-5 my-auto flag"
-                :style="{ backgroundImage: 'url(' + require(`@/assets/square-flags/${firstCurrencySelected.toLowerCase()}.svg`) + ')'}"
+                :style="{ backgroundImage: 'url(' + `https://wise.com/public-resources/assets/flags/rectangle/${firstCurrencySelected.toLowerCase()}.png` + ')'}"
               />
               <div
                 v-else
@@ -123,7 +123,7 @@
               <span class="text-md my-auto">{{ pair }}</span>
               <div
                 class="rounded-full block h-5 w-5 my-auto flag"
-                :style="{ backgroundImage: 'url(' + require(`@/assets/square-flags/${pair.toLowerCase()}.svg`) + ')'}"
+                :style="{ backgroundImage: 'url(' + `https://wise.com/public-resources/assets/flags/rectangle/${pair.toLowerCase()}.png` + ')'}"
               />
             </div>
           </div>
@@ -155,7 +155,7 @@
                 <div
                   v-if="flagForCodeExist(value.code.toLowerCase())"
                   class="rounded-full block h-14 w-14 my-auto flag"
-                  :style="{ backgroundImage: 'url(' + require(`@/assets/square-flags/${value.code.toLowerCase()}.svg`) + ')'}"
+                  :style="{ backgroundImage: 'url(' + `https://wise.com/public-resources/assets/flags/rectangle/${value.code.toLowerCase()}.png` + ')'}"
                 />
                 <div
                   v-else
@@ -219,14 +219,15 @@
       <div
         class="rounded-2xl border-2 border-black p-5 dark:bg-secondary h-1/2"
       >
-        <ApexChart
-          v-if="chartOptions.xaxis.categories.length > 0"
-          class="my-auto"
-          height="250"
-          type="line"
-          :series="series"
-          :options="chartOptions"
-        />
+        <div v-if="chartOptions.xaxis.categories.length > 0">
+          <ApexChart
+            class="my-auto"
+            height="250"
+            type="line"
+            :series="series"
+            :options="chartOptions"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -364,7 +365,6 @@ export default {
     watch([firstCurrencySelected, secondCurrencySelected], async (newValues) => {
       if (newValues[0] !== null && newValues[1] !== null) {
         await fetchData(firstCurrencySelected.value, secondCurrencySelected.value);
-        console.log(newValues[0], newValues[1]);
       }
     });
 
@@ -394,10 +394,7 @@ export default {
     const showSearchInfoFirst = ref(false);
     const showSearchInfoSecond = ref(false);
 
-    const flagForCodeExist = (code: string) => {
-      console.log(code, !!availableSquareFlags.find((c) => c === code));
-      return !!availableSquareFlags.find((c) => c === code);
-    };
+    const flagForCodeExist = (code: string) => !!availableSquareFlags.find((c) => c === code);
 
     const calculateValue = ref(100);
 
@@ -504,4 +501,5 @@ export default {
   -webkit-appearance: none;
   margin: 0;
 }
+
 </style>
