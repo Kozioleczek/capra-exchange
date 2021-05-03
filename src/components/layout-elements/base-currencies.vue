@@ -97,7 +97,7 @@
       </div>
       <div class="related mb-10">
         <p class="font-bold text-white mb-3">
-          Popularne pary walutowe:
+          Proponowane pary walutowe:
         </p>
         <div class="flex gap-5  flex-wrap">
           <div
@@ -217,10 +217,10 @@
         </div>
       </div>
       <div
-        v-if="chartOptions.xaxis.categories.length > 0"
-        class="rounded-2xl border-2 border-black p-5 dark:bg-secondary"
+        class="rounded-2xl border-2 border-black p-5 dark:bg-secondary h-1/2"
       >
         <ApexChart
+          v-if="chartOptions.xaxis.categories.length > 0"
           class="my-auto"
           height="250"
           type="line"
@@ -240,17 +240,17 @@
     >
     <h1
       v-if="errorCode === 400"
-      class="font-bold text-3xl"
+      class="font-bold text-3xl dark:text-white"
     >
       Oops! Pula darmowych zapytań została wyczerpana
     </h1>
     <h1
       v-else
-      class="font-bold text-3xl"
+      class="font-bold text-3xl dark:text-white"
     >
       Oops! Wystąpił nieznany błąd.
     </h1>
-    <p class="text-xl">
+    <p class="text-xl dark:text-white">
       Spróbuj ponowanie później
     </p>
   </div>
