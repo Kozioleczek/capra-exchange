@@ -44,7 +44,6 @@ export default {
 
     watch(localStatus,
       (status) => {
-        console.log('change', status);
         context.emit('checkbox-status', status);
       });
 

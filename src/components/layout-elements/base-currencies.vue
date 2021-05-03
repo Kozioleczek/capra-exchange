@@ -60,13 +60,24 @@
         </Multiselect>
       </div>
       <div class="money my-16">
-        <p
+        <div
           v-if="!isLoading"
-          class="text-6xl text-white"
+          class="flex gap-3 text-white"
         >
-          {{ transformedCurrencyRatio[0] }}
-          {{ firstCurrencySelected }}
-        </p>
+          <div class="text-6xl">
+            <input
+              v-model="calculateValue"
+              autofocus
+              type="number"
+              min="1"
+              class="calculateValueInput"
+              :style="{ width: (calculateValue.length + 1) * 1.75 + 'rem' }"
+            >
+          </div>
+          <div class="text-2xl">
+            <span>{{ firstCurrencySelected }}</span>
+          </div>
+        </div>
         <div
           v-else
           class="block bg-gray-300 rounded-lg animate-pulse w-2/3 h-12 mb-5"
@@ -76,7 +87,7 @@
           v-if="!isLoading"
           class="text-gray-300"
         >
-          Kurs: 1 PLN = 0.27 USD
+          Kurs: 1 {{ firstCurrencySelected }} = {{ transformedCurrencyRatio[0] }} {{ secondCurrencySelected }}
         </p>
         <div
           v-else
@@ -157,13 +168,17 @@
           </Multiselect>
         </div>
         <div class="money my-14">
-          <p
+          <div
             v-if="!isLoading"
-            class="text-6xl text-white"
+            class=" text-white flex gap-3"
           >
-            {{ transformedCurrencyRatio[1] }}
-            {{ secondCurrencySelected }}
-          </p>
+            <div class="text-6xl">
+              {{ (calculateValue*transformedCurrencyRatio[0]).toFixed(2) }}
+            </div>
+            <div class="text-2xl">
+              <span>{{ secondCurrencySelected }}</span>
+            </div>
+          </div>
           <div
             v-else
             class="block bg-gray-300 rounded-lg animate-pulse w-2/3 h-12 mb-5"
@@ -173,7 +188,7 @@
             v-if="!isLoading"
             class="text-gray-300"
           >
-            Kurs: 1 PLN = 0.27 USD
+            Kurs: 1 {{ secondCurrencySelected }} = {{ transformedCurrencyRatio[1] }} {{ firstCurrencySelected }}
           </p>
           <div
             v-else
@@ -197,7 +212,7 @@
   </div>
   <div
     v-else
-    class="block text-center"
+    class="block text-center p-10"
   >
     <img
       :src="require('@/assets/server-down.svg')"
@@ -250,27 +265,6 @@ export default {
     const isError = ref(false);
     const errorCode = ref(0);
 
-    // Fetch first pair data
-    const fetchData = async (firstCurrency: string, secondCurrency: string) => {
-      isLoading.value = true;
-      try {
-        const response = await getConvertPair(firstCurrency as CurrenciesKeysMap, secondCurrency as CurrenciesKeysMap);
-        const res = await getHistoricalDataRange(firstCurrency as CurrenciesKeysMap, secondCurrency as CurrenciesKeysMap, '2021-04-24', '2021-05-01');
-        currencyResponse.value = response.data;
-        historicalResponse.value = res.data;
-      } catch (error) {
-        isError.value = true;
-        errorCode.value = error.response.status;
-      } finally {
-        isLoading.value = false;
-      }
-    };
-
-    // Fetch first pair data
-    onMounted(async () => {
-      await fetchData('PLN', 'EUR');
-    });
-
     // i: 0 -> first currency i: 1 -> second
     const transformedCurrencyRatio = ref<number[]>([]);
 
@@ -283,15 +277,6 @@ export default {
         });
       }
     };
-
-    // When selected currencies changed and are !== null then fetchData
-    watch([firstCurrencySelected, secondCurrencySelected], async (newValues) => {
-      if (newValues[0] !== null && newValues[1] !== null) {
-        await fetchData(firstCurrencySelected.value, secondCurrencySelected.value);
-        adjustsCurrencyResponse();
-        console.log(newValues[0], newValues[1]);
-      }
-    });
 
     const chartOptions = reactive({
       chart: {
@@ -308,7 +293,7 @@ export default {
         curve: 'straight',
       },
       title: {
-        text: 'Currency trends',
+        text: 'Zmiana kursu waluty',
         align: 'left',
       },
       grid: {
@@ -325,15 +310,47 @@ export default {
       },
     });
 
-    const series = reactive<{name: string; data: number[]}[]>([]);
+    // Fetch first pair data
+    const fetchData = async (firstCurrency: string, secondCurrency: string) => {
+      isLoading.value = true;
+      chartOptions.xaxis.categories = [...[]];
+      try {
+        const response = await getConvertPair(firstCurrency as CurrenciesKeysMap, secondCurrency as CurrenciesKeysMap);
+        const res = await getHistoricalDataRange(firstCurrency as CurrenciesKeysMap, secondCurrency as CurrenciesKeysMap, '2021-04-24', '2021-05-01');
+        currencyResponse.value = response.data;
+        historicalResponse.value = res.data;
+      } catch (error) {
+        isError.value = true;
+        errorCode.value = error.response.status;
+      } finally {
+        adjustsCurrencyResponse();
+        isLoading.value = false;
+      }
+    };
+
+    // Fetch first pair data
+    onMounted(async () => {
+      await fetchData('PLN', 'EUR');
+    });
+
+    // When selected currencies changed and are !== null then fetchData
+    watch([firstCurrencySelected, secondCurrencySelected], async (newValues) => {
+      if (newValues[0] !== null && newValues[1] !== null) {
+        await fetchData(firstCurrencySelected.value, secondCurrencySelected.value);
+        console.log(newValues[0], newValues[1]);
+      }
+    });
+
+    const series = ref<{name: string; data: number[]}[]>([]);
 
     watch(historicalResponse, () => {
       if (historicalResponse.value !== null && historicalResponse.value !== undefined) {
+        series.value = [...[]];
         const firstElement = Object.keys(historicalResponse.value)[0];
-        series.push({ name: firstElement, data: [] });
+        series.value.push({ name: firstElement, data: [] });
         const obj = historicalResponse.value[firstElement];
         Object.entries(obj).forEach(([date, price]) => {
-          series[0].data.push(price);
+          series.value[0].data.push(price);
           chartOptions.xaxis.categories.push(date);
         });
       }
@@ -356,7 +373,10 @@ export default {
       return !!availableCodes.find((c) => c === code);
     };
 
+    const calculateValue = ref(100);
+
     return {
+      calculateValue,
       currencyResponse,
       historicalResponse,
       chartOptions,
@@ -438,5 +458,20 @@ export default {
 
 .is-disabled .multiselect-input {
   background: transparent;
+}
+
+.calculateValueInput{
+  background: transparent;
+  color: white;
+  min-width: 2rem;
+  width: 7rem;
+  max-width: 24rem;
+  transition: width 0.25s;
+}
+
+.calculateValueInput::-webkit-outer-spin-button,
+.calculateValueInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 </style>
