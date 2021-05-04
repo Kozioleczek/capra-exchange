@@ -1,6 +1,6 @@
 <template>
   <svg
-    :class="`h-${height} w-${width} text-white`"
+    :class="`text-white`"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 20 20"
     fill="currentColor"

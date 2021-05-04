@@ -7,9 +7,7 @@
       />
       <Moon
         v-if="checkboxStatus"
-        :height="10"
-        :width="10"
-        class="my-auto mr-4"
+        class="my-auto mr-4 h-7 w-7 xl:h-10 xl:w-10"
       />
       <SwitchButton
         class="my-auto"

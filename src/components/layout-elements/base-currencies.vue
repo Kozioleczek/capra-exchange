@@ -258,20 +258,20 @@
 </template>
 <script lang="ts">
 import {
-  onMounted, ref, reactive, watch,
+  onMounted, ref, reactive, watch, defineAsyncComponent,
 } from 'vue';
 import useCurrencyConverter from '@/composable/useCurrencyConverter';
 import { CurrencyResponse, CurrencyHistoricalResponse } from '@/types';
-import ApexChart from 'vue3-apexcharts';
-import Multiselect from '@vueform/multiselect';
+// import ApexChart from 'vue3-apexcharts';
+// import Multiselect from '@vueform/multiselect';
 import { currencies as currenciesISO, SingleCurrency, CurrenciesKeysMap } from '@/const/currenciesISO';
 import availableSquareFlags from '@/const/availableSquareFlags';
 import '@vueform/multiselect/themes/default.css';
 
 export default {
   components: {
-    ApexChart,
-    Multiselect,
+    ApexChart: defineAsyncComponent(() => import('vue3-apexcharts')),
+    Multiselect: defineAsyncComponent(() => import('@vueform/multiselect')),
   },
   setup() {
     const { getConvertPair, getHistoricalDataRange } = useCurrencyConverter();
