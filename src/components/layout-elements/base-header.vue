@@ -1,11 +1,9 @@
 <template>
-  <header class="grid grid-cols-3 pt-5">
+  <header class="flex justify-between md:grid md:grid-cols-3 pt-5">
     <div class="inline-flex justify-start dark:text-white">
       <Sun
         v-if="!checkboxStatus"
-        :height="10"
-        :width="10"
-        class="my-auto mr-4 "
+        class="my-auto mr-4 h-7 w-7 xl:h-10 xl:w-10"
       />
       <Moon
         v-if="checkboxStatus"
@@ -19,20 +17,20 @@
         @checkbox-status="checkboxStatus = $event"
       />
     </div>
-    <div class="text-center my-auto mx-auto">
-      <Logo class="dark:text-white text-black" />
+    <div class="text-center my-auto mx-auto hidden md:block">
+      <Logo class="dark:text-white text-black " />
     </div>
     <div class="inline-flex justify-end">
       <Cog
         :height="10"
         :width="10"
-        class="my-auto mr-4 cursor-pointer  text-black dark:text-white"
+        class="my-auto mr-4 cursor-pointer  text-black dark:text-white hidden md:block"
         @click="isSettingsPaneOpen = true"
       />
       <div class="my-auto">
         <div
           v-if="remainingRequests"
-          class="rounded-full py-2 px-4 dark:text-white"
+          class="rounded-full py-2 px-4 dark:text-white text-xs md:text-base"
           :class="remainingRequests.usage >= 100 ? 'bg-red-500 text-white' : 'border-2 border-green-400'"
         >
           <div v-if="remainingRequests.usage >= 100">

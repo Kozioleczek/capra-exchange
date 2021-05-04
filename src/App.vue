@@ -1,5 +1,5 @@
 <template>
-  <div class="container h-screen mx-auto p-4">
+  <div class="2xl:container h-screen mx-auto p-4">
     <Header />
     <Hero />
     <Currencies />

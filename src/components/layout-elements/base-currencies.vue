@@ -1,9 +1,9 @@
 <template>
   <div
     v-if="!isError"
-    class="flex px-32 gap-20"
+    class="flex 2xl:px-32 gap-5 xl:gap-15 flex-col lg:flex-row"
   >
-    <div class="w-1/2 bg-black dark:bg-secondary rounded-2xl p-10">
+    <div class="md:w-full xl:w-1/2 bg-black dark:bg-secondary rounded-2xl p-10">
       <div class="flex justify-between">
         <Multiselect
           v-model="firstCurrencySelected"
@@ -130,7 +130,7 @@
         </div>
       </div>
     </div>
-    <div class="w-1/2">
+    <div class="md:w-full xl:w-1/2">
       <div class="bg-black dark:bg-secondary rounded-2xl p-10 h-1/2 mb-5">
         <div class="flex justify-between">
           <Multiselect
@@ -283,7 +283,6 @@ export default {
     const secondCurrencySelected = ref<string>('EUR');
 
     const isLoading = ref(true);
-
     const isError = ref(false);
     const errorCode = ref(0);
 
@@ -300,6 +299,7 @@ export default {
       }
     };
 
+    // Chart options
     const chartOptions = reactive({
       chart: {
         height: 350,

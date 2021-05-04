@@ -1,5 +1,5 @@
 <template>
-  <footer class="justify-items-center flex-col content-center pt-10">
+  <footer class="justify-items-center flex-col content-center py-10">
     <div class="flex gap-5 justify-center ">
       <img
         src="@/assets/ja.png"
